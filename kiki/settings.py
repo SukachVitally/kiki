@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'kiki',
     'blog'
 )
 
@@ -71,6 +72,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'kiki.wsgi.application'
 
+LOGIN_URL = '/login'
+LOGIN_REDIRECT_URL = '/'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
