@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'djangobower',
     'kiki'
 )
 
@@ -104,3 +105,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_FINDERS = (
+    "djangobower.finders.BowerFinder",
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+)
+
+
+BOWER_INSTALLED_APPS = (
+    'bootstrap',
+)
+
+BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'vendor')
