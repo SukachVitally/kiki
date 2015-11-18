@@ -19,13 +19,7 @@ class Migration(migrations.Migration):
                 ('created_date', models.DateField(auto_now=True)),
                 ('author_id', models.IntegerField()),
                 ('is_approved', models.BooleanField(default=False)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='ArticleCategories',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('article', models.ForeignKey(to='kiki.Article')),
+                ('category_id', models.IntegerField(default=1, choices=[(1, b'News'), (2, b'Books'), (3, b'Documentation')])),
             ],
         ),
         migrations.CreateModel(
@@ -33,13 +27,6 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('article', models.ForeignKey(to='kiki.Article')),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Category',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=50)),
             ],
         ),
         migrations.CreateModel(
@@ -53,10 +40,5 @@ class Migration(migrations.Migration):
             model_name='articletags',
             name='tag',
             field=models.ForeignKey(to='kiki.Tag'),
-        ),
-        migrations.AddField(
-            model_name='articlecategories',
-            name='category',
-            field=models.ForeignKey(to='kiki.Category'),
         ),
     ]

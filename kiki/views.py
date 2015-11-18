@@ -41,6 +41,7 @@ def create_article(request):
             article = models.Article.objects.create(
                 name=form.cleaned_data['name'],
                 text=strip_tags(form.cleaned_data['text']),
+                category_id=form.cleaned_data['category'],
                 author_id=request.user.id
             )
             article.save()
@@ -81,10 +82,11 @@ def edit_article(request, article_id):
         if form.is_valid():
             article.name = form.cleaned_data['name']
             article.text = form.cleaned_data['text']
+            article.category_id = form.cleaned_data['category']
             article.save()
             return redirect('/')
     else:
-        form = forms.ArticleForm(initial={'name': article.name, 'text': article.text})
+        form = forms.ArticleForm(initial={'name': article.name, 'text': article.text, 'category': article.category_id})
     return render(request, 'article/update.html',  {'form': form})
 
 

@@ -1,4 +1,5 @@
 from django import forms
+from kiki import models
 
 
 class RegistrationForm(forms.Form):
@@ -14,5 +15,6 @@ class ArticleForm(forms.Form):
 
     name = forms.CharField(max_length=100)
     text = forms.CharField()
+    category = forms.ChoiceField(models.Article.CATEGORIES)
 
 

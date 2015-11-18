@@ -1,4 +1,6 @@
 from django.contrib import admin
-from kiki.models import Article
+from kiki import models
 
-admin.site.register(Article)
+
+admin.site.register(models.Article)
+admin.site.register(models.Tag)
