@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^$', views.index),
     url(r'^login$', auth_views.login),
     url(r'^logout$', auth_views.logout, {'next_page': '/login'}),
+    url(r'^registration', views.registration),
     url(r'^admin/', include(admin.site.urls)),
 ]
