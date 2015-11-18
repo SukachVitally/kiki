@@ -13,6 +13,6 @@
   </div>
 </form>
 {% include "article/editor_toolbar.html" %}
-<div id="editor" class="lead" data-placeholder="This is a basic example with a simple toolbar."></div>
+<div id="editor" class="lead" data-placeholder="This is a basic example with a simple toolbar.">{{ form.text.value }}</div>
 <a href="#" class="btn btn-large btn-default jumbo" id="submit_button">Submit</a>
 {% endblock %}

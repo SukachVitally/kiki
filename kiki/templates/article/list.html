@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<a href="/articles/create">Create article</a>
+<table class="table">
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>Name</th>
+    <th>Published</th>
+    <th>Show</th>
+    <th>Edit</th>
+    <th>Delete</th>
+  </tr>
+  </thead>
+  <tbody>
+    {% for item in articles %}
+    <tr>
+      <td>{{item.id}}</td>
+      <td>{{item.name}}</td>
+      <td>{% if item.is_approved %} Yes {% else %} No {% endif %}</td>
+      <td><a href="/articles/{{item.id}}">Show</a></td>
+      <td><a href="/articles/edit/{{item.id}}">Edit</a></td>
+      <td><a href="/articles/delete/{{item.id}}">Delete</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

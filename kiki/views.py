@@ -3,6 +3,7 @@ from django.utils.html import strip_tags
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
+from django.http import Http404, HttpResponseForbidden
 from kiki import forms
 from kiki import models
 
@@ -47,3 +48,55 @@ def create_article(request):
     else:
         form = forms.ArticleForm()
     return render(request, 'article/create.html',  {'form': form})
+
+
+@login_required
+def get_articles(request):
+    articles = models.Article.objects.all().filter(author_id=request.user.id)
+    return render(request, 'article/list.html',  {'articles': articles})
+
+
+@login_required
+def show_article(request, article_id):
+    try:
+        article = models.Article.objects.get(pk=article_id)
+    except (models.Article.DoesNotExist):
+        return Http404('Article not exist')
+
+    return render(request, 'article/show.html', {'article': article})
+
+
+@login_required
+def edit_article(request, article_id):
+    try:
+        article = models.Article.objects.get(pk=article_id)
+    except (models.Article.DoesNotExist):
+        return Http404('Article not exist')
+
+    if article.author_id != request.user.id:
+        return HttpResponseForbidden('its not yours article')
+
+    if request.method == 'POST':
+        form = forms.ArticleForm(request.POST)
+        if form.is_valid():
+            article.name = form.cleaned_data['name']
+            article.text = form.cleaned_data['text']
+            article.save()
+            return redirect('/')
+    else:
+        form = forms.ArticleForm(initial={'name': article.name, 'text': article.text})
+    return render(request, 'article/update.html',  {'form': form})
+
+
+@login_required
+def delete_article(request, article_id):
+    try:
+        article = models.Article.objects.get(pk=article_id)
+    except (models.Article.DoesNotExist):
+        return Http404('Article not exist')
+
+    if article.author_id != request.user.id:
+        return HttpResponseForbidden('its not yours article')
+
+    article.delete()
+    return redirect('/')
