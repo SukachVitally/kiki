@@ -86,6 +86,13 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -115,6 +122,7 @@ STATICFILES_FINDERS = (
 
 BOWER_INSTALLED_APPS = (
     'bootstrap',
+    'bootstrap-wysiwyg-steveathon'
 )
 
 BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'vendor')

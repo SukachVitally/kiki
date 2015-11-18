@@ -9,3 +9,10 @@ class RegistrationForm(forms.Form):
     email = forms.EmailField(label='Email', max_length=100)
     password = forms.CharField(min_length=6, max_length=32, widget=forms.PasswordInput)
 
+
+class ArticleForm(forms.Form):
+
+    name = forms.CharField(max_length=100)
+    text = forms.CharField()
+
+

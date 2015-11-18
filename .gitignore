@@ -2,3 +2,4 @@
 *.egg-info
 *.pyc
 vendor/*
+db.sqlite3

@@ -5,6 +5,20 @@
     <title>Blog</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/dist/css/bootstrap.css' %}"/>
+
+
+    <link href="{% static 'google-code-prettify/src/prettify.css' %}" />
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.css" />
+    <link href="{% static 'bootstrap-wysiwyg/css/style.css' %}" rel="stylesheet" />
+    <style type="text/css">
+       #editor {overflow:scroll; max-height:300px}
+    </style>
+
+    <script src="{% static 'jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'jquery.hotkeys/jquery.hotkeys.js' %}"></script>
+    <script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'google-code-prettify/src/prettify.js' %}"></script>
+    <script src="{% static 'bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js' %}"></script>
 </head>
 <body>
     <nav class="navbar navbar-default">
