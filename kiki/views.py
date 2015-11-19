@@ -1,11 +1,15 @@
+import bleach
+from rest_framework import generics
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
-from django.http import Http404, HttpResponseForbidden
+from django.http import Http404
+from django.http import HttpResponseForbidden
+
 from kiki import forms
 from kiki import models
-import bleach
+from kiki.serializers import ArticleSerializer
 
 
 @login_required
@@ -133,3 +137,13 @@ def create_tag(request, article_id):
     form = forms.TagFrom()
     tags = models.ArticleTags.objects.all().filter(article_id=article.id)
     return render(request, 'article/tag.html',  {'form': form, 'tags': tags})
+
+
+class ArticlesApiView(generics.ListAPIView):
+    queryset = models.Article.objects.all().filter(is_approved=True)
+    serializer_class = ArticleSerializer
+
+
+class ArticleApiView(generics.RetrieveAPIView):
+    queryset = models.Article.objects.all()
+    serializer_class = ArticleSerializer

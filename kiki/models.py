@@ -2,7 +2,6 @@ from django.db import models
 from django.db.models import Count
 
 
-
 class Article(models.Model):
 
     NEWS = 1
@@ -32,10 +31,11 @@ class Article(models.Model):
         return 'Without category'
 
     def tags(self):
-        return ArticleTags.objects.all().filter(article_id=self.id)
+        article_tags = ArticleTags.objects.all().filter(article_id=self.id)
+        return [item.tag for item in article_tags]
 
     def similar_articles(self):
-        tag_ids = [tag.tag_id for tag in self.tags()]
+        tag_ids = [tag.id for tag in self.tags()]
         tag_list = ArticleTags.objects.filter(tag_id__in=tag_ids)\
             .values('article_id')\
             .annotate(dcount=Count('article_id'))\
