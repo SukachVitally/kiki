@@ -64,8 +64,10 @@ def show_article(request, article_id):
     except models.Article.DoesNotExist:
         return Http404('Article not exist')
 
-    tags = models.ArticleTags.objects.all().filter(article_id=article.id)
-    return render(request, 'article/show.html', {'article': article, 'tags': tags})
+    return render(request, 'article/show.html', {
+        'article': article,
+        'similar_articles': article.similar_articles()
+    })
 
 
 @login_required

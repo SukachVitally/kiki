@@ -2,9 +2,29 @@
 {% block content %}
 <h1>{{article.name}}</h1>
 <h3>
-  Tags: {% for item in tags %} <kbd>{{item.tag}}</kbd>{% endfor %}
+  Tags: {% for item in article.tags %} <kbd>{{item.tag}}</kbd>{% endfor %}
 </h3>
 {% autoescape off %}
-<div>{{article.text}}<div>
+<div>{{article.text}}</div>
 {% endautoescape %}
+<h4>Similar articles:</h4>
+<table class="table">
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>Name</th>
+    <th>Published</th>
+    <th>Tags</th>
+  </tr>
+  </thead>
+  <tbody>
+    {% for item in similar_articles %}
+    <tr>
+      <td>{{item.id}}</td>
+      <td>{{item.name}}</td>
+      <td>{% if item.is_approved %} Yes {% else %} No {% endif %}</td>
+      <td>{% for i in item.tags %} <kbd>{{i.tag}}</kbd>{% endfor %}</td>
+    </tr>
+    {% endfor %}
+</table>
 {% endblock %}

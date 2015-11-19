@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models import Count
+
 
 
 class Article(models.Model):
@@ -28,6 +30,27 @@ class Article(models.Model):
             if item[0] == self.category_id:
                 return item[1]
         return 'Without category'
+
+    def tags(self):
+        return ArticleTags.objects.all().filter(article_id=self.id)
+
+    def similar_articles(self):
+        tag_ids = [tag.tag_id for tag in self.tags()]
+        tag_list = ArticleTags.objects.filter(tag_id__in=tag_ids)\
+            .values('article_id')\
+            .annotate(dcount=Count('article_id'))\
+            .order_by('dcount')\
+            .reverse()
+
+        article_ids = [i['article_id'] for i in tag_list]
+        if not len(article_ids):
+            return []
+
+        # remove own id from list
+        article_ids.remove(self.id)
+        articles = list(Article.objects.filter(pk__in=article_ids))
+        articles.sort(key=lambda t: article_ids.index(t.pk))
+        return articles
 
 
 class Tag(models.Model):
