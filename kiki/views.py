@@ -1,11 +1,11 @@
 from django.contrib.auth.decorators import login_required
-from django.utils.html import strip_tags
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.http import Http404, HttpResponseForbidden
 from kiki import forms
 from kiki import models
+import bleach
 
 
 @login_required
@@ -40,7 +40,7 @@ def create_article(request):
         if form.is_valid():
             article = models.Article.objects.create(
                 name=form.cleaned_data['name'],
-                text=strip_tags(form.cleaned_data['text']),
+                text=bleach.clean(form.cleaned_data['text']),
                 category_id=form.cleaned_data['category'],
                 author_id=request.user.id
             )
@@ -81,7 +81,7 @@ def edit_article(request, article_id):
         form = forms.ArticleForm(request.POST)
         if form.is_valid():
             article.name = form.cleaned_data['name']
-            article.text = form.cleaned_data['text']
+            article.text = bleach.clean(form.cleaned_data['text'])
             article.category_id = form.cleaned_data['category']
             article.save()
             return redirect('/')
