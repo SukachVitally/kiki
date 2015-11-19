@@ -2,6 +2,7 @@
 
 {% block content %}
 {% autoescape off %}
+<a href="/articles/{{ article_id }}/tags">Tags</a>
 <form method="post">
   {% csrf_token %}
   <div class="form-group">

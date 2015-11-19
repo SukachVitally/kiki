@@ -18,3 +18,7 @@ class ArticleForm(forms.Form):
     category = forms.ChoiceField(models.Article.CATEGORIES)
 
 
+class TagFrom(forms.Form):
+
+    name = forms.CharField(max_length=100)
+

@@ -61,17 +61,18 @@ def get_articles(request):
 def show_article(request, article_id):
     try:
         article = models.Article.objects.get(pk=article_id)
-    except (models.Article.DoesNotExist):
+    except models.Article.DoesNotExist:
         return Http404('Article not exist')
 
-    return render(request, 'article/show.html', {'article': article})
+    tags = models.ArticleTags.objects.all().filter(article_id=article.id)
+    return render(request, 'article/show.html', {'article': article, 'tags': tags})
 
 
 @login_required
 def edit_article(request, article_id):
     try:
         article = models.Article.objects.get(pk=article_id)
-    except (models.Article.DoesNotExist):
+    except models.Article.DoesNotExist:
         return Http404('Article not exist')
 
     if article.author_id != request.user.id:
@@ -87,14 +88,14 @@ def edit_article(request, article_id):
             return redirect('/')
     else:
         form = forms.ArticleForm(initial={'name': article.name, 'text': article.text, 'category': article.category_id})
-    return render(request, 'article/update.html',  {'form': form})
+    return render(request, 'article/update.html',  {'form': form, 'article_id': article.id})
 
 
 @login_required
 def delete_article(request, article_id):
     try:
         article = models.Article.objects.get(pk=article_id)
-    except (models.Article.DoesNotExist):
+    except models.Article.DoesNotExist:
         return Http404('Article not exist')
 
     if article.author_id != request.user.id:
@@ -102,3 +103,31 @@ def delete_article(request, article_id):
 
     article.delete()
     return redirect('/')
+
+
+@login_required
+def create_tag(request, article_id):
+    try:
+        article = models.Article.objects.get(pk=article_id)
+    except models.Article.DoesNotExist:
+        return Http404('Article not exist')
+
+    if article.author_id != request.user.id:
+        return HttpResponseForbidden('its not yours article')
+
+    if request.method == 'POST':
+        form = forms.TagFrom(request.POST)
+        if form.is_valid():
+            try:
+                tag = models.Tag.objects.get(name=form.cleaned_data['name'])
+            except models.Tag.DoesNotExist:
+                tag = models.Tag(name=form.cleaned_data['name'])
+                tag.save()
+
+            if not models.ArticleTags.objects.filter(article_id=article.id, tag_id=tag.id).count():
+                article_tag = models.ArticleTags(article_id=article.id, tag_id=tag.id)
+                article_tag.save()
+
+    form = forms.TagFrom()
+    tags = models.ArticleTags.objects.all().filter(article_id=article.id)
+    return render(request, 'article/tag.html',  {'form': form, 'tags': tags})

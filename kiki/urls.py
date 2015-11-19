@@ -28,5 +28,6 @@ urlpatterns = [
     url(r'^articles/(?P<article_id>[0-9]+)$', views.show_article),
     url(r'^articles/edit/(?P<article_id>[0-9]+)$', views.edit_article),
     url(r'^articles/delete/(?P<article_id>[0-9]+)$', views.delete_article),
+    url(r'^articles/(?P<article_id>[0-9]+)/tags$', views.create_tag),
     url(r'^admin/', include(admin.site.urls)),
 ]

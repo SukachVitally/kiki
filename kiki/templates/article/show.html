@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>{{article.name}}</h1>
+<h3>
+  Tags: {% for item in tags %} <kbd>{{item.tag}}</kbd>{% endfor %}
+</h3>
 {% autoescape off %}
 <div>{{article.text}}<div>
 {% endautoescape %}
