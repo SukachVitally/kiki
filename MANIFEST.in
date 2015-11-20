@@ -1,2 +1,2 @@
 include requirements.txt
-recursive-include migrations *
+recursive-include kiki/templates *
